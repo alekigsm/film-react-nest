@@ -1,1 +1,32 @@
-//TODO описать DTO для запросов к /films
+// films/dto/films.dto.ts
+export class GetFilmDto {
+  id: string;
+  rating: number;
+  director: string;
+  tags: string[];
+  title: string;
+  about: string;
+  description: string;
+  image: string; 
+  cover: string; 
+}
+
+export class GetFilmsResponseDto {
+  total: number;
+  items: GetFilmDto[];
+}
+
+export class GetScheduleDto {
+  id: string;
+  daytime: string; 
+  hall: string; 
+  rows: number;
+  seats: number;
+  price: number;
+  taken: string[];
+}
+
+export class GetScheduleResponseDto {
+  total: number;
+  items: GetScheduleDto[];
+}
