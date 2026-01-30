@@ -1,23 +1,24 @@
 import { Injectable } from '@nestjs/common';
-//import { InjectModel } from '@nestjs/mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 import {
   GetFilmDto,
   GetFilmsResponseDto,
   GetScheduleDto,
   GetScheduleResponseDto,
 } from '../films/dto/films.dto';
-import FilmModel from '../films/schema/filmSchema';
+import { IFilm, IShedule } from '../films/schema/filmSchema';
+import { Model } from 'mongoose';
 //import { Mongoose } from 'mongoose';
 
 @Injectable()
 export class FilmsRepository {
-  /*   constructor(
-    @InjectModel('films')
-    private readonly film: FilmModel,
-  ) {} */
+  constructor(
+    @InjectModel('Film')
+    private readonly filmModel: Model<IFilm>,
+  ) {}
   // Маппер фильма
 
-  private mapToFilmDto(filmDocument: any): GetFilmDto {
+  private mapToFilmDto(filmDocument: IFilm): GetFilmDto {
     return {
       id: filmDocument.id,
       rating: filmDocument.rating,
@@ -33,11 +34,11 @@ export class FilmsRepository {
   }
 
   // Маппер расписания
-  private mapToScheduleDto(scheduleItem: any): GetScheduleDto {
+  private mapToScheduleDto(scheduleItem: IShedule): GetScheduleDto {
     return {
       id: scheduleItem.id,
       daytime: scheduleItem.daytime,
-      hall: scheduleItem.hall.toString(),
+      hall: scheduleItem.hall,
       rows: scheduleItem.rows,
       seats: scheduleItem.seats,
       price: scheduleItem.price,
@@ -50,10 +51,10 @@ export class FilmsRepository {
 
     try {
       console.log(
-        `FilmModel.db ${FilmModel.db.db}, ${FilmModel.db.host}, ${FilmModel.db.config}, ${FilmModel.db.port} `,
+        `FilmModel.db ${this.filmModel.db.db}, ${this.filmModel.db.host}, ${this.filmModel.db.config}, ${this.filmModel.db.port} `,
       );
-      const total = await FilmModel.countDocuments({});
-      const items = await FilmModel.find({});
+      const total = await this.filmModel.countDocuments({});
+      const items = await this.filmModel.find({});
       console.log(`Found ${items.length} films`);
 
       // Проверяем каждый документ
@@ -87,10 +88,9 @@ export class FilmsRepository {
   }
 
   async getFilmSchedule(id: string): Promise<GetScheduleResponseDto | null> {
-    const film = await FilmModel.findOne(
-      { id },
-      { schedule: 1, title: 1, _id: 0 },
-    ).exec();
+    const film = await this.filmModel
+      .findOne({ id }, { schedule: 1, title: 1, _id: 0 })
+      .exec();
 
     if (!film) return null;
 
