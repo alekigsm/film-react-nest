@@ -1,4 +1,3 @@
-// films/dto/films.dto.ts
 export class GetFilmDto {
   id: string;
   rating: number;
@@ -7,8 +6,8 @@ export class GetFilmDto {
   title: string;
   about: string;
   description: string;
-  image: string; 
-  cover: string; 
+  image: string;
+  cover: string;
 }
 
 export class GetFilmsResponseDto {
@@ -18,8 +17,8 @@ export class GetFilmsResponseDto {
 
 export class GetScheduleDto {
   id: string;
-  daytime: string; 
-  hall: string; 
+  daytime: string;
+  hall: string;
   rows: number;
   seats: number;
   price: number;
