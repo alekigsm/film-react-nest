@@ -22,10 +22,16 @@ import { MongooseModule } from '@nestjs/mongoose';
       serveRoot: '/content/afisha',
     }),
     MongooseModule.forRoot(
-      process.env.DATABASE_URL || 'mongodb://127.0.0.1:27017/afisha',
+      /* process.env.DATABASE_URL || */ 'mongodb://localhost:27017/afisha',
     ),
   ],
   controllers: [FilmsController, OrderController],
-  providers: [configProvider, OrderService, FilmsService, FilmsRepository],
+  providers: [
+    configProvider,
+    OrderService,
+    FilmsService,
+    FilmsRepository,
+    MongooseModule,
+  ],
 })
 export class AppModule {}

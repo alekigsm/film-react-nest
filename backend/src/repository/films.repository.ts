@@ -1,15 +1,22 @@
 import { Injectable } from '@nestjs/common';
+//import { InjectModel } from '@nestjs/mongoose';
 import {
   GetFilmDto,
   GetFilmsResponseDto,
   GetScheduleDto,
   GetScheduleResponseDto,
-} from 'src/films/dto/films.dto';
-import FilmModel from 'src/films/schema/filmSchema';
+} from '../films/dto/films.dto';
+import FilmModel from '../films/schema/filmSchema';
+//import { Mongoose } from 'mongoose';
 
 @Injectable()
 export class FilmsRepository {
+  /*   constructor(
+    @InjectModel('films')
+    private readonly film: FilmModel,
+  ) {} */
   // Маппер фильма
+
   private mapToFilmDto(filmDocument: any): GetFilmDto {
     return {
       id: filmDocument.id,
@@ -21,6 +28,7 @@ export class FilmsRepository {
       description: filmDocument.description,
       image: filmDocument.image,
       cover: filmDocument.cover,
+      schedule: filmDocument.schedule,
     };
   }
 
@@ -41,7 +49,11 @@ export class FilmsRepository {
     console.log('=== DEBUG getFilms ===');
 
     try {
-      const items = await FilmModel.find().exec();
+      console.log(
+        `FilmModel.db ${FilmModel.db.db}, ${FilmModel.db.host}, ${FilmModel.db.config}, ${FilmModel.db.port} `,
+      );
+      const total = await FilmModel.countDocuments({});
+      const items = await FilmModel.find({});
       console.log(`Found ${items.length} films`);
 
       // Проверяем каждый документ
@@ -60,8 +72,6 @@ export class FilmsRepository {
       });
 
       console.log('Mapped items:', mappedItems);
-
-      const total = await FilmModel.countDocuments().exec();
 
       return {
         total,

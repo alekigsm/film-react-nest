@@ -8,6 +8,7 @@ export class GetFilmDto {
   description: string;
   image: string;
   cover: string;
+  schedule: GetScheduleDto[];
 }
 
 export class GetFilmsResponseDto {

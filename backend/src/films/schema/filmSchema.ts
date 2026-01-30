@@ -1,6 +1,6 @@
-import mongoose, { Schema } from 'mongoose';
+import { model, Schema } from 'mongoose';
 
-const ScheduleSchema = new Schema({
+export const ScheduleSchema = new Schema({
   id: { type: String, required: true },
   daytime: { type: String, required: true },
   hall: { type: Number, required: true },
@@ -10,7 +10,7 @@ const ScheduleSchema = new Schema({
   taken: { type: [String], default: [] },
 });
 
-const FilmSchema = new mongoose.Schema({
+export const FilmSchema = new Schema({
   id: { type: String, required: true },
   rating: { type: Number, required: true },
   director: { type: String, required: true },
@@ -23,5 +23,8 @@ const FilmSchema = new mongoose.Schema({
   schedule: { type: [ScheduleSchema], required: true },
 });
 
-export const FilmModel = mongoose.model('Film', FilmSchema);
+export interface IFilm extends Document {
+  
+}
+export const FilmModel = model('films', FilmSchema);
 export default FilmModel;
