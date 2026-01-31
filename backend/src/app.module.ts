@@ -14,7 +14,6 @@ import { FilmSchema } from './films/schema/filmSchema';
 
 @Module({
   imports: [
-    // 1. СНАЧАЛА подключаемся к MongoDB
     MongooseModule.forRoot('mongodb://127.0.0.1:27017/afisha'), // ← ДОБАВЬТЕ ЭТО!
 
     ConfigModule.forRoot({
@@ -26,7 +25,6 @@ import { FilmSchema } from './films/schema/filmSchema';
       serveRoot: '/content/afisha',
     }),
 
-    // 2. ПОТОМ регистрируем модели
     MongooseModule.forFeature([{ name: 'Film', schema: FilmSchema }]),
   ],
   controllers: [FilmsController, OrderController],

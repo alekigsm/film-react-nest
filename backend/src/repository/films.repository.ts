@@ -9,9 +9,10 @@ import {
 import { IFilm, IShedule } from '../films/schema/filmSchema';
 import { Model } from 'mongoose';
 //import { Mongoose } from 'mongoose';
+import IFilmsRepository from './films.repository.interface';
 
 @Injectable()
-export class FilmsRepository {
+export class FilmsRepository implements IFilmsRepository {
   constructor(
     @InjectModel('Film')
     private readonly filmModel: Model<IFilm>,
@@ -27,8 +28,8 @@ export class FilmsRepository {
       title: filmDocument.title,
       about: filmDocument.about,
       description: filmDocument.description,
-      image: filmDocument.image,
-      cover: filmDocument.cover,
+      image: `/content/afisha/${filmDocument.image}`,
+      cover: `/content/afisha/${filmDocument.cover}`,
       schedule: filmDocument.schedule,
     };
   }
@@ -46,17 +47,9 @@ export class FilmsRepository {
     };
   }
 
-  async getFilms(): Promise<GetFilmsResponseDto> {
-    console.log('=== DEBUG getFilms ===');
-
+  async getAllFilms(): Promise<GetFilmsResponseDto> {
     try {
-      console.log(
-        `FilmModel.db ${this.filmModel.db.db}, ${this.filmModel.db.host}, ${this.filmModel.db.config}, ${this.filmModel.db.port} `,
-      );
-      const total = await this.filmModel.countDocuments({});
       const items = await this.filmModel.find({});
-      console.log(`Found ${items.length} films`);
-
       // Проверяем каждый документ
       const mappedItems = items.map((item, index) => {
         console.log(`Film ${index}:`, {
@@ -72,8 +65,7 @@ export class FilmsRepository {
         return this.mapToFilmDto(item);
       });
 
-      console.log('Mapped items:', mappedItems);
-
+      const total = await this.filmModel.countDocuments({});
       return {
         total,
         items: mappedItems,
@@ -88,9 +80,10 @@ export class FilmsRepository {
   }
 
   async getFilmSchedule(id: string): Promise<GetScheduleResponseDto | null> {
-    const film = await this.filmModel
-      .findOne({ id }, { schedule: 1, title: 1, _id: 0 })
-      .exec();
+    const film = await this.filmModel.findOne(
+      { id },
+      { schedule: 1, title: 1, _id: 0 },
+    );
 
     if (!film) return null;
 
@@ -98,5 +91,9 @@ export class FilmsRepository {
       total: film.schedule.length,
       items: film.schedule.map((item) => this.mapToScheduleDto(item)),
     };
+  }
+
+  createOrder(data) {
+    return;
   }
 }
