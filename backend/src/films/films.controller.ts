@@ -7,14 +7,12 @@ export class FilmsController {
   constructor(private readonly filmsService: FilmsService) {}
 
   @Get()
-  async getAllFilms(): Promise<GetFilmsResponseDto> {
+  getAllFilms(): Promise<GetFilmsResponseDto> {
     return this.filmsService.getAllFilms();
   }
 
   @Get(':id/schedule')
-  async getFilmSchedule(
-    @Param('id') id: string,
-  ): Promise<GetScheduleResponseDto> {
+  getFilmSchedule(@Param('id') id: string): Promise<GetScheduleResponseDto> {
     return this.filmsService.getFilmSchedule(id);
   }
 }

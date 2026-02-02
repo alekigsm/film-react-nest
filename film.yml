@@ -1,7 +1,7 @@
 openapi: 3.0.0
 servers:
   - description: Yandex.Practicum Stub API
-    url: https://stub.practicum-team.ru/api/afisha
+    url: http://localhost:3000/api/afisha
 info:
   description: Yandex Practicum «Film!» project api
   version: "1.0.0"
@@ -10,13 +10,13 @@ info:
     email: aleksei-mart@yandex-team.ru
   license:
     name: Apache 2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
 paths:
   /films:
     get:
       description: return list of films available on this week
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -31,7 +31,7 @@ paths:
                     items:
                       type: object
                       allOf:
-                        - $ref: '#/components/schemas/Film'
+                        - $ref: "#/components/schemas/Film"
   /films/{id}/schedule:
     get:
       description: return actual shedule for selected film
@@ -45,7 +45,7 @@ paths:
             example: d290f1ee-6c54-4b01-90e6-d701748f0851
           description: film id value
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -60,7 +60,7 @@ paths:
                     items:
                       type: object
                       allOf:
-                        - $ref: '#/components/schemas/Shedule'
+                        - $ref: "#/components/schemas/Shedule"
   /order:
     description: buy tickets
     post:
@@ -82,9 +82,9 @@ paths:
                   items:
                     type: object
                     allOf:
-                      - $ref: '#/components/schemas/Ticket'
+                      - $ref: "#/components/schemas/Ticket"
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -100,14 +100,14 @@ paths:
                     items:
                       type: object
                       allOf:
-                        - $ref: '#/components/schemas/Ticket'
+                        - $ref: "#/components/schemas/Ticket"
                         - type: object
                           properties:
                             id:
                               type: string
                               format: uuid
-        '400':
-          $ref: '#/components/responses/BadRequest'
+        "400":
+          $ref: "#/components/responses/BadRequest"
 components:
   responses:
     BadRequest:
@@ -115,13 +115,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: "#/components/schemas/Error"
     NotFound:
       description: The specified resource was not found
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: "#/components/schemas/Error"
   schemas:
     Error:
       type: object
@@ -143,27 +143,27 @@ components:
           example: 2.9
         director:
           type: string
-          example: 'Итан Райт'
+          example: "Итан Райт"
         tags:
           type: array
           items:
             type: string
-          example: ['Документальный']
+          example: ["Документальный"]
         title:
           type: string
-          example: 'Архитекторы общества'
+          example: "Архитекторы общества"
         about:
           type: string
-          example: 'Документальный фильм, исследующий влияние искусственного интеллекта на общество и этические, философские и социальные последствия технологии.'
+          example: "Документальный фильм, исследующий влияние искусственного интеллекта на общество и этические, философские и социальные последствия технологии."
         description:
           type: string
-          example: 'Документальный фильм Итана Райта исследует влияние технологий на современное общество, уделяя особое внимание роли искусственного интеллекта в формировании нашего будущего. Фильм исследует этические, философские и социальные последствия гонки технологий ИИ и поднимает вопрос: какой мир мы создаём для будущих поколений.'
+          example: "Документальный фильм Итана Райта исследует влияние технологий на современное общество, уделяя особое внимание роли искусственного интеллекта в формировании нашего будущего. Фильм исследует этические, философские и социальные последствия гонки технологий ИИ и поднимает вопрос: какой мир мы создаём для будущих поколений."
         image:
           type: string
-          example: '/images/bg1s.jpg'
+          example: "/images/bg1s.jpg"
         cover:
           type: string
-          example: '/images/bg1c.jpg'
+          example: "/images/bg1c.jpg"
     Shedule:
       type: object
       properties:
@@ -174,10 +174,10 @@ components:
         daytime:
           type: string
           format: date-time
-          example: '2023-05-29T10:30:00.001Z'
+          example: "2023-05-29T10:30:00.001Z"
         hall:
           type: string
-          example: '2'
+          example: "2"
         rows:
           type: number
           example: 5
@@ -188,10 +188,10 @@ components:
           type: number
           example: 350
         taken:
-            type: array
-            items:
-              type: string
-              example: '1:2'
+          type: array
+          items:
+            type: string
+            example: "1:2"
     Ticket:
       type: object
       properties:
@@ -206,7 +206,7 @@ components:
         daytime:
           type: string
           format: date-time
-          example: '2023-05-29T10:30:00.001Z'
+          example: "2023-05-29T10:30:00.001Z"
         row:
           type: number
           example: 2
