@@ -11,7 +11,11 @@ import { IFilm, IShedule } from './schema/filmSchema';
 @Injectable()
 export class FilmsService {
   constructor(private readonly filmsRepository: FilmsRepository) {}
-
+  private normalizedPath(path: string): string {
+    const basePath = '/content/afisha/';
+    const cleanedPath = path.replace(/^\//, '');
+    return `${basePath}${cleanedPath}`;
+  }
   private mapToFilmDto(filmDocument: IFilm): GetFilmDto {
     return {
       id: filmDocument.id,
@@ -21,8 +25,8 @@ export class FilmsService {
       title: filmDocument.title,
       about: filmDocument.about,
       description: filmDocument.description,
-      image: `/content/afisha/${filmDocument.image}`,
-      cover: `/content/afisha/${filmDocument.cover}`,
+      image: this.normalizedPath(filmDocument.image),
+      cover: this.normalizedPath(filmDocument.cover),
       schedule: filmDocument.schedule.map((s) => this.mapToScheduleDto(s)), // ← тоже маппим!
     };
   }
