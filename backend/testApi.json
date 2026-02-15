@@ -1,0 +1,291 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/films": {
+      "get": {
+        "operationId": "FilmsController_getAllFilms",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFilmsResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/films/{id}/schedule": {
+      "get": {
+        "operationId": "FilmsController_getFilmSchedule",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetScheduleResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/order": {
+      "post": {
+        "operationId": "OrderController_createOrder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateOrderResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "info": {
+    "title": "Мой фильмапроект",
+    "description": "Практикум Films",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [
+    {
+      "url": "http://localhost:3000/"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "GetScheduleDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "daytime": {
+            "type": "string"
+          },
+          "hall": {
+            "type": "number"
+          },
+          "rows": {
+            "type": "number"
+          },
+          "seats": {
+            "type": "number"
+          },
+          "price": {
+            "type": "number"
+          },
+          "taken": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": ["id", "daytime", "hall", "rows", "seats", "price", "taken"]
+      },
+      "GetFilmDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "number"
+          },
+          "director": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "title": {
+            "type": "string"
+          },
+          "about": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "cover": {
+            "type": "string"
+          },
+          "schedule": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetScheduleDto"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "rating",
+          "director",
+          "tags",
+          "title",
+          "about",
+          "description",
+          "image",
+          "cover",
+          "schedule"
+        ]
+      },
+      "GetFilmsResponseDto": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "number"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetFilmDto"
+            }
+          }
+        },
+        "required": ["total", "items"]
+      },
+      "GetScheduleResponseDto": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "number"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetScheduleDto"
+            }
+          }
+        },
+        "required": ["total", "items"]
+      },
+      "TicketDto": {
+        "type": "object",
+        "properties": {
+          "film": {
+            "type": "string"
+          },
+          "session": {
+            "type": "string"
+          },
+          "daytime": {
+            "type": "string"
+          },
+          "row": {
+            "type": "number"
+          },
+          "seat": {
+            "type": "number"
+          },
+          "price": {
+            "type": "number"
+          }
+        },
+        "required": ["film", "session", "daytime", "row", "seat", "price"]
+      },
+      "CreateOrderDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "tickets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TicketDto"
+            }
+          }
+        },
+        "required": ["email", "phone", "tickets"]
+      },
+      "TicketResponseDto": {
+        "type": "object",
+        "properties": {
+          "film": {
+            "type": "string"
+          },
+          "session": {
+            "type": "string"
+          },
+          "daytime": {
+            "type": "string"
+          },
+          "row": {
+            "type": "number"
+          },
+          "seat": {
+            "type": "number"
+          },
+          "price": {
+            "type": "number"
+          },
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": ["film", "session", "daytime", "row", "seat", "price", "id"]
+      },
+      "CreateOrderResponseDto": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "number"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TicketResponseDto"
+            }
+          }
+        },
+        "required": ["total", "items"]
+      }
+    }
+  }
+}
