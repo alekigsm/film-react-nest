@@ -1,24 +1,23 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
 
-import { IFilm } from '../films/schema/filmSchema';
-import { Model } from 'mongoose';
-//import { Mongoose } from 'mongoose';
 import IFilmsRepository from './films.repository.interface';
+import { Films } from '../films/entity/Films';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class FilmsRepository implements IFilmsRepository {
   constructor(
-    @InjectModel('Film')
-    private readonly filmModel: Model<IFilm>,
+    @InjectRepository(Films)
+    private readonly filmModel: Repository<Films>,
   ) {}
 
-  findAll(): Promise<IFilm[]> {
-    return this.filmModel.find({});
+  findAll(): Promise<Films[]> {
+    return this.filmModel.find({ relations: ['schedule'] });
   }
 
-  findById(id: string): Promise<IFilm | null> {
-    return this.filmModel.findOne({ id });
+  findById(id: string): Promise<Films | null> {
+    return this.filmModel.findOne({ where: { id }, relations: ['schedule'] });
   }
 
   async checkFilmAndScheduleExists(
@@ -27,8 +26,13 @@ export class FilmsRepository implements IFilmsRepository {
   ): Promise<boolean> {
     try {
       const film = await this.filmModel.findOne({
-        id: filmId,
-        'schedule.id': scheduleId,
+        where: {
+          id: filmId,
+          schedule: {
+            id: scheduleId,
+          },
+        },
+        relations: ['schedule'],
       });
       return !!film;
     } catch (error) {
@@ -42,20 +46,19 @@ export class FilmsRepository implements IFilmsRepository {
     seatKey: string,
   ): Promise<boolean> {
     try {
-      const result = await this.filmModel.findOneAndUpdate(
-        {
-          id: filmId,
-          'schedule.id': scheduleId,
-          'schedule.taken': { $ne: seatKey },
-        },
-        {
-          $push: { 'schedule.$.taken': seatKey },
-        },
-        {
-          new: true,
-        },
-      );
-      return !!result;
+      const film = await this.filmModel.findOne({
+        where: { id: filmId },
+        relations: ['schedule'],
+      });
+      if (film) {
+        const schedule = film.schedule.find((s) => s.id === scheduleId);
+        if (schedule && !schedule.taken.includes(seatKey)) {
+          schedule.taken.push(seatKey);
+          const result = await this.filmModel.save(film);
+          return !!result;
+        }
+      }
+      return false;
     } catch (error) {
       throw new InternalServerErrorException('Database error');
     }

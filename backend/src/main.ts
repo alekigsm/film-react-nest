@@ -7,15 +7,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.enableCors();
+  app.enableCors({});
   app.setGlobalPrefix('api/afisha');
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true,
-    }),
-  );
+  app.useGlobalPipes(new ValidationPipe({}));
 
   // Настраиваем Swagger БЕЗ учета глобального префикса
   const config = new DocumentBuilder()
@@ -26,7 +20,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config, {
-    ignoreGlobalPrefix: true, // Игнорируем глобальный префикс для Swagger
+    ignoreGlobalPrefix: false, // Игнорируем глобальный префикс для Swagger
   });
 
   // Swagger доступен по /api/docs (без префикса afisha)

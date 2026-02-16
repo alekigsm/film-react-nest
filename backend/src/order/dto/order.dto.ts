@@ -1,3 +1,5 @@
+import { Allow } from 'class-validator';
+
 export class TicketDto {
   film: string;
   session: string;
@@ -8,6 +10,7 @@ export class TicketDto {
 }
 
 export class CreateOrderDto {
+  @Allow()
   email: string;
   phone: string;
   tickets: TicketDto[];

@@ -1,9 +1,9 @@
-import { IFilm } from '../films/schema/filmSchema';
+import { Films } from '../films/entity/Films';
 
 interface IFilmsRepository {
-  findAll(): Promise<IFilm[]>;
+  findAll(): Promise<Films[]>;
 
-  findById(id: string): Promise<IFilm | null>;
+  findById(id: string): Promise<Films | null>;
   checkFilmAndScheduleExists(
     filmId: string,
     scheduleId: string,
