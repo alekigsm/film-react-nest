@@ -3,14 +3,14 @@ import { AppModule } from './app.module';
 import 'dotenv/config';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { TskvLogger } from './loggers/tskv.logger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
 
   app.enableCors({});
   app.setGlobalPrefix('api/afisha');
-  app.useLogger(new TskvLogger());
+  const logger = app.get('LOGGER');
+  app.useLogger(logger);
 
   app.useGlobalPipes(new ValidationPipe({}));
 

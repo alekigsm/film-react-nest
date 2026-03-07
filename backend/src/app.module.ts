@@ -9,6 +9,7 @@ import { OrderModule } from './order/order.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Films } from './films/entity/Films';
 import { Schedules } from './films/entity/Schedule';
+import { loggerProvider } from './loggers/logger.provider';
 
 @Module({
   imports: [
@@ -31,6 +32,6 @@ import { Schedules } from './films/entity/Schedule';
     FilmsModule,
     OrderModule,
   ],
-  providers: [configProvider],
+  providers: [configProvider, loggerProvider],
 })
 export class AppModule {}
