@@ -1,0 +1,93 @@
+services:
+  frontend:
+    image: ghcr.io/alekigsm/film-frontend-docker:latest
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    env_file:
+      - frontend/.env
+    volumes:
+      - frontend_dist:/app/dist
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  backend:
+    image: ghcr.io/alekigsm/film-backend-docker:latest
+    build:
+      context: backend
+    env_file:
+      - backend/.env
+    volumes:
+      - ./backend/src:/app/src
+      - public:/app/src/public
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+    restart: on-failure
+
+  nginx:
+    image: ghcr.io/alekigsm/film-nginx:latest
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - app-network
+    restart: always
+    volumes:
+      - frontend_dist:/usr/share/nginx/html
+      - public:/var/public
+      - ./certbot/www/:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/letsencrypt/:ro
+
+  certbot:
+    image: certbot/certbot:latest
+    networks:
+      - app-network
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
+
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    env_file:
+      - backend/.env
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 8080:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+    restart: unless-stopped
+
+volumes:
+  frontend_dist:
+  public:
+  db_data:
+  pgadmin_data:
+
+networks:
+  app-network:
+    driver: bridge
