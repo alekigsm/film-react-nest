@@ -15,11 +15,13 @@ import { loggerProvider } from './loggers/logger.provider';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: process.env.DATABASE_USERNAME,
-      password: process.env.DATABASE_PASSWORD,
-      database: process.env.DATABASE,
+      host: process.env.DB_HOST || process.env.DATABASE_HOST || 'localhost',
+      port: Number(process.env.DB_PORT || process.env.DATABASE_PORT || 5432),
+      username:
+        process.env.DB_USERNAME || process.env.DATABASE_USERNAME || 'postgres',
+      password:
+        process.env.DB_PASSWORD || process.env.DATABASE_PASSWORD || 'postgres',
+      database: process.env.DB_DATABASE || process.env.DATABASE || 'filmdb',
       entities: [Films, Schedules],
       synchronize: true,
     }),
