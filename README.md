@@ -1,3 +1,40 @@
+# Film React Nest
+
+Full-stack приложение для афиши фильмов (React + NestJS)
+
+## 🚀 Деплой
+
+Проект развернут и доступен по адресам:
+
+- **Сайт (фронтенд)**: [http://158.160.223.181](http://158.160.223.181)
+- **API**: [http://158.160.223.181/api/afisha/films](http://158.160.223.181/api/afisha/films)
+- **Документация API (Swagger)**: [http://158.160.223.181/api/docs](http://158.160.223.181/api/docs)
+- **pgAdmin** (только через SSH-туннель): `http://localhost:8080`
+
+## 🛠️ Технологии
+
+- **Frontend**: React + TypeScript + Vite
+- **Backend**: NestJS + TypeORM + PostgreSQL
+- **Infrastructure**: Docker, GitHub Actions, Yandex Cloud
+
+## 📦 CI/CD
+
+Автоматическая сборка и публикация Docker-образов настроена через GitHub Actions:
+
+- `ghcr.io/alekigsm/film-backend:latest`
+- `ghcr.io/alekigsm/film-frontend:latest`
+- `ghcr.io/alekigsm/film-nginx:latest`
+
+## 🧪 Локальный запуск
+
+```bash
+# Клонировать репозиторий
+git clone https://github.com/alekigsm/film-react-nest.git
+cd film-react-nest
+
+# Запустить в dev-режиме
+docker-compose up -d
+
 # FILM!
 
 ## Установка
