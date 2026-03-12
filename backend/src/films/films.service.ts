@@ -13,7 +13,7 @@ import { Schedules } from './entity/Schedule';
 export class FilmsService {
   constructor(private readonly filmsRepository: FilmsRepository) {}
   private normalizedPath(path: string): string {
-    const basePath = '/content/afisha/';
+    const basePath = '/';
     const cleanedPath = path.replace(/^\//, '');
     return `${basePath}${cleanedPath}`;
   }
