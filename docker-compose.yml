@@ -51,16 +51,16 @@ services:
       - ./certbot/www/:/var/www/certbot/:ro
       - ./certbot/conf/:/etc/letsencrypt/:ro
 
-  # certbot:
-  #   image: certbot/certbot:latest
-  #   networks:
-  #     - app-network
-  #   volumes:
-  #     - ./certbot/www/:/var/www/certbot/:rw
-  #     - ./certbot/conf/:/etc/letsencrypt/:rw
+  certbot:
+    image: certbot/certbot:latest
+    networks:
+      - app-network
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
 
   postgres:
-    image: postgres:16
+    image: postgres:15-alpine
     restart: unless-stopped
     env_file:
       - backend/.env
