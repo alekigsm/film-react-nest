@@ -6,9 +6,9 @@ Full-stack приложение для афиши фильмов (React + NestJS
 
 Проект развернут и доступен по адресам:
 
-- **Сайт (фронтенд)**: [http://158.160.223.181](http://158.160.223.181)
-- **API**: [http://158.160.223.181/api/afisha/films](http://158.160.223.181/api/afisha/films)
-- **Документация API (Swagger)**: [http://158.160.223.181/api/docs](http://158.160.223.181/api/docs)
+- **Сайт (фронтенд)**: [http://158.160.223.181](http://158.160.223.181) или [http://film.nomorepartiessite.ru](http://film.nomorepartiessite.ru)
+- **API**: [http://158.160.223.181/api/afisha/films](http://158.160.223.181/api/afisha/films) или [http://film.nomorepartiessite.ru/api/afisha/films](http://film.nomorepartiessite.ru/api/afisha/films)
+- **Документация API (Swagger)**: [http://158.160.223.181/api/docs](http://158.160.223.181/api/docs) или [http://film.nomorepartiessite.ru/api/docs](http://film.nomorepartiessite.ru/api/docs)
 - **pgAdmin** (только через SSH-туннель): `http://localhost:8080`
 
 ## 🛠️ Технологии
@@ -41,7 +41,7 @@ docker-compose up -d
 
 ### MongoDB
 
-Установите MongoDB скачав дистрибутив с официального сайта или с помощью пакетного менеджера вашей ОС. Также можно воспользоваться Docker (см. ветку `feat/docker`.
+Установите MongoDB скачав дистрибутив с официального сайта или с помощью пакетного менеджера вашей ОС. Также можно воспользоваться Docker (см. ветку `feat/docker`).
 
 Выполните скрипт `test/mongodb_initial_stub.js` в консоли `mongo`.
 
@@ -67,7 +67,3 @@ MongoDB должна быть установлена и запущена.
 `npm start:debug`
 
 Для проверки отправьте тестовый запрос с помощью Postman или `curl`.
-
-
-
-
