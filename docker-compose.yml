@@ -50,6 +50,7 @@ services:
       - public:/var/public
       - ./certbot/www/:/var/www/certbot/:ro
       - ./certbot/conf/:/etc/letsencrypt/:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
 
   certbot:
     image: certbot/certbot:latest
