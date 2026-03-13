@@ -24,5 +24,9 @@ dist-ssr
 *.sw?
 
 .env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
 .idea
 .vscode

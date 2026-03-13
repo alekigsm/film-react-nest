@@ -6,17 +6,18 @@ import {
   GetScheduleDto,
   GetScheduleResponseDto,
 } from '../films/dto/films.dto';
-import { IFilm, IShedule } from './schema/filmSchema';
+import { Films } from './entity/Films';
+import { Schedules } from './entity/Schedule';
 
 @Injectable()
 export class FilmsService {
   constructor(private readonly filmsRepository: FilmsRepository) {}
   private normalizedPath(path: string): string {
-    const basePath = '/content/afisha/';
+    const basePath = '/';
     const cleanedPath = path.replace(/^\//, '');
     return `${basePath}${cleanedPath}`;
   }
-  private mapToFilmDto(filmDocument: IFilm): GetFilmDto {
+  private mapToFilmDto(filmDocument: Films): GetFilmDto {
     return {
       id: filmDocument.id,
       rating: filmDocument.rating,
@@ -30,7 +31,7 @@ export class FilmsService {
       schedule: filmDocument.schedule.map((s) => this.mapToScheduleDto(s)), // ← тоже маппим!
     };
   }
-  private mapToScheduleDto(scheduleItem: IShedule): GetScheduleDto {
+  private mapToScheduleDto(scheduleItem: Schedules): GetScheduleDto {
     return {
       id: scheduleItem.id,
       daytime: scheduleItem.daytime,
@@ -44,7 +45,6 @@ export class FilmsService {
 
   async getAllFilms(): Promise<GetFilmsResponseDto> {
     const films = await this.filmsRepository.findAll();
-
     const items = films.map((film) => this.mapToFilmDto(film));
     return {
       total: films.length,

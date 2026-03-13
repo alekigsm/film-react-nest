@@ -9,6 +9,7 @@ export class OrderService {
   async createOrder(
     createOrderDto: CreateOrderDto,
   ): Promise<CreateOrderResponseDto> {
+    console.log(createOrderDto);
     if (!createOrderDto.email || !createOrderDto.email.includes('@')) {
       throw new BadRequestException('Invalid email');
     }
